@@ -62,7 +62,7 @@ app.get('/contact', async (req, res) => {
         console.error(error.message);
     }
 })
-// POST/add contact
+// POST/add contact in contact page
 app.post('/contact',
     body('name').trim().notEmpty().withMessage('Please enter your name').isAlpha('en-US', {ignore: ' '}).withMessage('Please enter a valid name')
     .custom(async name => {
@@ -94,7 +94,7 @@ app.post('/contact',
         }
     }
 )
-// GET/show detail contact
+// GET/show detail contact in contactDetails
 app.get('/contact/:name', async (req, res) => {
     // To callback the parameters that are in the URL, use req.params.id
     // To callback the query from URL, use ?<queryName>=<input>
@@ -104,20 +104,18 @@ app.get('/contact/:name', async (req, res) => {
     // res.send(`Product ID: ${(req.params.id)}<br>Category: ${(req.query.idCat)}`);
     try {
         const {rows:[search]} = await pool.query(`SELECT * FROM contacts WHERE name = '${req.params.name}'`)
-        const {rows:next} = await pool.query(`SELECT * FROM contacts WHERE name = '${req.params.name}'`)
         res.render('contactDetails', {
             name: 'Nathanure',
             title: 'Contact',
             layout: 'layout/html',
             url: req.params.name,
-            search,
-            next
+            search
         });
     } catch (error) {
         console.error(error.message);
     }
 })
-// PUT/update detail contact
+// PUT/update detail contact in contactUpdate
 app.get('/contact/:name/update', async (req, res) => {
     try {
         const {rows:[search]} = await pool.query(`SELECT * FROM contacts WHERE name = '${req.params.name}'`)
@@ -133,7 +131,7 @@ app.get('/contact/:name/update', async (req, res) => {
         console.error(error.message);
     }
 })
-// PUT/update detail contact
+// PUT/update detail contact in contactUpdate
 app.post('/contact/:name/update',
     body('prevname').trim(),
     body('name').trim().isAlpha('en-US', {ignore: ' '}).withMessage('Please enter a valid name')
@@ -167,7 +165,7 @@ app.post('/contact/:name/update',
         }
     }
 )
-// DELETE/destroy detail contact
+// DELETE/destroy detail contact in contactDetails
 app.get('/contact/:name/delete', async (req, res) => {
     try {
         if (req.params.name) {
@@ -183,40 +181,8 @@ app.get('/contact/:name/delete', async (req, res) => {
         console.error(error.message);
     }
 })
-// GET/show detail contact
-app.get('/contact/:name', async (req, res) => {
-    // To callback the parameters that are in the URL, use req.params.id
-    // To callback the query from URL, use ?<queryName>=<input>
-    // before ? sign you can put an :id, make sure to define it first
-    // And make sure the query in URL is the same as <queryName> in the code 
 
-    // res.send(`Product ID: ${(req.params.id)}<br>Category: ${(req.query.idCat)}`);
-    try {
-        const {rows:search} = await pool.query(`SELECT * FROM contacts WHERE name = '${req.params.name}'`)
-        res.render('contactDetails', {
-            name: 'Nathanure',
-            title: 'Contact',
-            layout: 'layout/html',
-            url: req.params.name,
-            search
-        });
-    } catch (error) {
-        console.error(error.message);
-    }
-})
-
-app.get('/addasync', async (req, res) => {
-    try {
-        const name = 'Nathan'
-        const mobile = '085954464651'
-        const email = 'nathancadankelas6a@gmail.com'
-        const newContact = await pool.query(`INSERT INTO contacts VALUES ('${name}', '${mobile}', '${email}') RETURNING *`);
-        res.json(newContact)
-    } catch (error) {
-        console.error(error.message);
-    }
-})
-
+// 404 Not Found if page are not found
 app.use('/', (req, res) => {
     res.status(404).render('error', {
         title: 'Page Not Found 404',
@@ -224,6 +190,7 @@ app.use('/', (req, res) => {
     });
 })
 
+// Port to listen to
 app.listen(port, () => {
     console.log(`Example app on port ${(port)}`)
 })
