@@ -1,0 +1,70 @@
+<%- contentFor('content') %>
+<!-- Detail Page -->
+<main>
+    <div class="container">
+        <!-- Title -->
+        <h1 class="text-center my-5">Contact Details</h1>
+        <!-- Branch for contact, if data is not found in Database -->
+        <% if (search === undefined) { %>
+        <!-- Display page, if no data is found in database -->
+        <p class="fs-5 text-center my-5">"<%= url %>" not found</p>
+        <div class="d-flex justify-content-center my-4">
+            <a
+                type="button"
+                href="/contact"
+                class="btn btn-danger rounded-4 px-3 py-2"
+                >Back to Contact</a
+            >
+        </div>
+        <% } else { %>
+        <!-- Display data that is in Database -->
+        <div class="d-grid justify-content-center">
+            <!-- Card to contain it -->
+            <div class="card rounded-4 border border-success border-3">
+                <!-- d-flex to make the both of childs inline and flexible -->
+                <div class="d-flex gap-3 p-4">
+                    <!-- Left side -->
+                    <div class="d-grid gap-3 fw-bold">
+                        <p class="my-0">Nama</p>
+                        <p class="my-0">Email</p>
+                        <p class="my-0">Phone Number</p>
+                    </div>
+                    <!-- Right side -->
+                    <div class="d-grid gap-3">
+                        <p class="my-0">: <%= search.name %></p>
+                        <p class="my-0">: <%= search.email %></p>
+                        <p class="my-0">: <%= search.mobile %></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Anchors link to other pages -->
+            <div class="d-flex justify-content-between gap-3 my-4">
+                <!-- Anchors to return back to contact page -->
+                <a
+                    type="button"
+                    href="/contact"
+                    class="btn btn-outline-secondary rounded-4 px-3 py-2"
+                    >Back to Contact</a
+                >
+                <div class="d-flex gap-2">
+                    <!-- Anchors to go to update page -->
+                    <a
+                        href="/contact/<%= search.name %>/update"
+                        class="btn btn-success rounded-4 px-3 py-2"
+                    >
+                        Edit
+                    </a>
+                    <!-- Anchors to go to delete page -->
+                    <a
+                        href="/contact/<%= search.name %>/delete"
+                        class="btn btn-danger rounded-4 px-3 py-2"
+                        onclick="return confirm('Are you sure you want to delete <% search.name %>')"
+                    >
+                        Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</main>

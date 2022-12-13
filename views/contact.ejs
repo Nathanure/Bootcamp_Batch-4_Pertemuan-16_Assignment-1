@@ -1,0 +1,173 @@
+<%- contentFor('content') %>
+<!-- Contact Page -->
+<main>
+    <div class="container">
+        <!-- Title -->
+        <div class="text-center m-4">
+            <h1>Contact List</h1>
+        </div>
+        <!-- Branch for contact if data is not in Database -->
+        <% if (contact.length < 1) { %>
+        <!-- Display page, if no data is found in database -->
+        <div class="d-grid justify-content-center">
+            <p>Data contact is not available</p>
+            <!-- Button trigger modal -->
+            <button
+                class="btn btn-success mb-5"
+                data-bs-toggle="modal"
+                data-bs-target="#registerModal"
+            >
+                Add Contact
+            </button>
+        </div>
+        <% } else { %>
+        <!-- Display page data from database -->
+        <div class="my-5">
+            <div class="m-auto w-75">
+                <!-- Table to list all datas -->
+                <table class="table table-hover border border-3 border-dark mb-0 mx-auto">
+                    <!-- Table heads -->
+                    <thead class="text-center fs-5">
+                        <!-- Loop for heads in table -->
+                        <% titles = ['No', 'Nama', 'Email', 'Mobile'];
+                        %> <% titles.forEach(head => { %>
+                        <th><%= head %></th>
+                        <% }); %>
+                    </thead>
+                    <!-- Table body -->
+                    <tbody class="table-group-divider">
+                        <!-- Loop to display all data in JSON -->
+                        <% contact.forEach((row, i) => { %>
+                        <!-- window.location to make table row or tr anchored/linked to its respective data -->
+                        <tr role="button" onclick="window.location='/contact/<%= row.name %>';"> 
+                            <th scope="row" class="fw-bold text-center"><%= i+1 %></th>
+                            <td><%= row.name %></td>
+                            <td><%= row.email %></td>
+                            <td><%= row.mobile %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                <!-- Button trigger modal to register data -->
+                <div class="text-end">
+                    <button
+                        class="bg-transparent border-0 fs-6 p-0 link-primary text-decoration-underline"
+                        data-bs-toggle="modal"
+                        data-bs-target="#registerModal"
+                    >
+                        Want to register your contact? Click this!
+                    </button>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <!-- Modal to add data -->
+        <div
+            class="modal fade"
+            id="registerModal"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="registerModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="/contact" method="post">
+                        <!-- Modal header -->
+                        <div class="modal-header">
+                            <!-- Modal title -->
+                            <h1
+                                class="modal-title fs-5"
+                                id="registerModalLabel"
+                            >
+                                Register Contact
+                            </h1>
+                            <!-- Close button -->
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <!-- Input name with validation -->
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control 
+                                <% if(err != 'undefined') { %>
+                                    <% err.forEach((error) => { %>
+                                        <%= error.param === "name" ? 'is-invalid' : '' %>
+                                    <% }) %>
+                                <% } %>
+                                "
+                                id="name" name="name" placeholder="Your Real Name" required />
+                                <% if(err != 'undefined') { %>
+                                    <% err.forEach((error) => { %>
+                                    <div id="validationNameServer" class="invalid-feedback"> 
+                                        <%= error.param === "name" ? error.msg : '' %>
+                                    </div>
+                                    <% }) %>
+                                <% } %>
+                            </div>
+                            <!-- Input email with validation -->
+                            <div class="mb-3">
+                                <label for="email" class="col-form-label">Email:</label>
+                                <input type="email" class="form-control
+                                <% if(err != 'undefined') { %>
+                                    <% err.forEach((error) => { %>
+                                        <%= error.param === "email" ? 'is-invalid' : '' %>
+                                    <% }) %>
+                                <% } %>
+                                "
+                                id="email" name="email" placeholder="Active Email" />
+                                <% if(err != 'undefined') { %>
+                                    <% err.forEach((error) => { %>
+                                    <div id="validationEmailServer" class="invalid-feedback">
+                                        <%= error.param === "email" ? error.msg : '' %>
+                                    </div>
+                                    <% }) %>
+                                <% } %>
+                            </div>
+                            <!-- Input mobile with validation -->
+                            <div class="mb-3">
+                                <label for="mobile" class="col-form-label">Phone Number:</label>
+                                <input type="tel" class="form-control
+                                <% if(err != 'undefined') { %>
+                                    <% err.forEach((error) => { %>
+                                        <%= error.param === "mobile" ? 'is-invalid' : '' %>
+                                    <% }) %>
+                                <% } %>
+                                "
+                                name="mobile" id="mobile" placeholder="Active Phone Number" required />
+                                <% if(err != 'undefined') { %>
+                                    <% err.forEach((error) => { %>
+                                    <div id="validationPhoneServer" class="invalid-feedback">
+                                        <%= error.param === "mobile" ? error.msg : '' %>
+                                    </div>
+                                    <% }) %>
+                                <% } %>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<% if (err != 'undefined') { %>
+<!-- Script after post if adding data failed -->
+<% } %>
+<script type="text/javascript">
+    window.addEventListener("load", () => {
+        document.getElementById("registerModal").modal("show");
+    });
+</script>

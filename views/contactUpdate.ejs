@@ -1,0 +1,107 @@
+<%- contentFor('content') %>  
+<!-- Update Page -->
+<main>
+    <div class="container">
+        <!-- Title -->
+        <h1 class="text-center my-5">Update Contact</h1>
+        <!-- Branch for contact, if data is not found in Database -->
+        <% if (search === undefined) { %>
+        <!-- Display page, if no data is found in database -->
+        <p class="fs-5 text-center my-5">"<%= url %>" not found</p>
+        <div class="d-flex justify-content-center my-4">
+            <a
+            type="button"
+            href="/contact"
+            class="btn btn-danger rounded-4 px-3 py-2"
+            >Back to Contact</a
+            >
+        </div>
+        <% } else { %>
+        <!-- Display page, if no data is found in database -->
+        <div class="d-grid justify-content-center">
+            <!-- Card to contain it -->
+            <div class="card border border-success border-3">
+                <!-- Form update -->
+                <form class="p-3" action="/contact/<%= url %>/update" method="post">
+                    <!-- Input form -->
+                    <div>
+                        <input type="text" class="form-control" id="prevname" name="prevname" value="<%= url %>" hidden />
+                        <!-- Input name with validation -->
+                        <div class="mb-3" style="min-width: 50vw">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control
+                            <% if(err != 'undefined') { %>
+                                <% err.forEach((error) => { %>
+                                    <%= error.param === "name" ? 'is-invalid' : '' %>
+                                <% }) %>
+                            <% } %>
+                            " 
+                            id="name" name="name" placeholder="New Name" value="<%= search.name %>" required />
+                            <% if(err != 'undefined') { %>
+                                <% err.forEach((error) => { %>
+                                <div id="validationNameServer" class="invalid-feedback"> 
+                                    <%= error.param === "name" ? error.msg : '' %>
+                                </div>
+                                <% }) %>
+                            <% } %>
+                        </div>
+                        <!-- Input email with validation -->
+                        <div class="mb-3">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control
+                            <% if(err != 'undefined') { %>
+                                <% err.forEach((error) => { %>
+                                    <%= error.param === "email" ? 'is-invalid' : '' %>
+                                <% }) %>
+                            <% } %>
+                            " 
+                            id="email" name="email" placeholder="Active Email" value="<%= search.email %>" />
+                            <% if(err != 'undefined') { %>
+                                <% err.forEach((error) => { %>
+                                <div id="validationEmailServer" class="invalid-feedback">
+                                    <%= error.param === "email" ? error.msg : '' %>
+                                </div>
+                                <% }) %>
+                            <% } %>
+                        </div>
+                        <!-- Input phone number with validation -->
+                        <div class="mb-3">
+                            <label for="mobile" class="col-form-label">Phone Number:</label>
+                            <input type="tel" class="form-control
+                            <% if(err != 'undefined') { %>
+                                <% err.forEach((error) => { %>
+                                    <%= error.param === "mobile" ? 'is-invalid' : '' %>
+                                <% }) %>
+                            <% } %>
+                            "
+                            name="mobile" id="mobile" placeholder="Active Phone Number" value="<%= search.mobile %>" required />
+                            <% if(err != 'undefined') { %>
+                                <% err.forEach((error) => { %>
+                                <div id="validationPhoneServer" class="invalid-feedback">
+                                    <%= error.param === "mobile" ? error.msg : '' %>
+                                </div>
+                                <% }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <!-- Submit form -->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Anchor to return back to contact page -->
+            <div class="d-flex justify-content-between gap-3 my-4">
+                <a
+                    type="button"
+                    href="/contact/<%= url %>"
+                    class="btn btn-secondary rounded-4 px-3 py-2"
+                    >Back to Contact "<%= url %>"</a
+                >
+            </div>
+        </div>
+        <% } %>
+    </div>
+</main>

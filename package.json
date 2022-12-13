@@ -1,0 +1,18 @@
+{
+  "name": "package-wgs-bootcamp-15-1-2",
+  "version": "1.0.0",
+  "description": "Web Application with Express JS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nathanure",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-validator": "^6.14.2",
+    "pg": "^8.8.0"
+  }
+}
